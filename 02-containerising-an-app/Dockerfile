@@ -1,20 +1,13 @@
-# use node LTS (12.x), alpine linux distro
-FROM node:erbium-alpine
+FROM ubuntu:bionic
 
-# need port 3000 open for our application to receive requests on
-EXPOSE 3000
+USER root
+WORKDIR /home/app
 
-# use node user for security purposes
-USER node
-RUN mkdir /home/node/app
-WORKDIR /home/node/app
+RUN apt-get update
+RUN apt-get -y install curl gnupg
+RUN curl -sL https://deb.nodesource.com/setup_12.x  | bash -
+RUN apt-get -y install nodejs
+RUN npm install
+ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
-# copy over package config and install deps
-COPY --chown=node:node package-lock.json package.json ./
-RUN npm ci
 
-# copy over rest of files
-COPY --chown=node:node . .
-
-# run service by default
-CMD ["node", "server.js"]
