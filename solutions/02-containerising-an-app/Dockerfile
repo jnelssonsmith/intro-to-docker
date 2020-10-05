@@ -14,7 +14,7 @@ COPY --chown=node:node package-lock.json package.json ./
 RUN npm ci
 
 # copy over rest of files
-COPY --chown=node:node . .
+COPY --chown=node:node ./server.js .
 
 # run service by default
 CMD ["node", "server.js"]
