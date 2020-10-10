@@ -10,11 +10,11 @@ RUN mkdir /home/node/app
 WORKDIR /home/node/app
 
 # copy over package config and install deps
-COPY --chown=node:node package-lock.json package.json ./
+COPY package-lock.json package.json ./
 RUN npm ci
 
 # copy over rest of files
-COPY --chown=node:node ./server.js .
+COPY ./server.js .
 
 # run service by default
 CMD ["node", "server.js"]
